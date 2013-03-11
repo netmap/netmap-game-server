@@ -15,7 +15,7 @@ have OSX, install the two packages on the
 [Ubuntu 12.10 Server 64-bit ISO](http://releases.ubuntu.com/quantal/ubuntu-12.10-server-amd64.iso).
 
 4. Set up a VirtualBox VM.
-    * Name: ChromeWebView
+    * Name: NetmapServer
     * Type: Linux
     * Version: Ubuntu 64-bit
     * RAM: 1024Mb
@@ -81,60 +81,18 @@ have OSX, install the two packages on the
     # The password is netmap.
     ```
 
-10. Install the game server dependencies.
+10. Set up the server.
 
     ```bash
     # ssh netmap@netmap.local
-    sudo sh -c "echo netmap ALL=NOPASSWD: NOPASSWD: ALL >> /etc/sudoers"
-    sudo apt-get update && sudo apt-get -y dist-upgrade
-    sudo apt-get install -y build-essential git libpq-dev libsqlite3-dev \
-        postgresql postgresql-client postgresql-contrib \
-        postgresql-server-dev-all \
-        ruby ruby-dev software-properties-common sqlite3
-    sudo env REALLY_GEM_UPDATE_SYSTEM=1 gem update --system 1.8.25
-    sudo gem pristine --all
-    sudo gem install bundler foreman therubyracer
+    curl -fLsS https://git.pwnb.us/netmap/netmap-server/raw/master/doc/vm-server-update.sh | sh
     ```
 
-11. Install game server dependencies from PPAs.
+11. Shut down the VM if you want to back up the disk image.
 
     ```bash
     # ssh netmap@netmap.local
-    sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable  # postgis 2.0
-    sudo add-apt-repository -y ppa:kakrueger/openstreetmap  # osm2pgsql 0.81
-    sudo add-apt-repository -y ppa:mapnik/v2.1.0
-    sudo apt-get update && sudo apt-get -y dist-upgrade
-    sudo apt-get install -y libmapnik-dev mapnik-utils osm2pgsql postgis \
-        osmosis
-    sudo gem install ruby-mapnik
+    sudo poweroff
     ```
 
-12. Set up PostgreSQL.
-
-    ```bash
-    # ssh netmap@netmap.local
-    sudo -u postgres createuser --superuser $USER
-    createdb $USER
-    ```
-
-13. Set up the game server.
-
-    ```bash
-    # ssh netmap@netmap.local
-    cd ~
-    git clone https://git.pwnb.us/netmap/netmap-server.git netmap
-    cd ~/netmap
-    bundle install
-    rake db:create db:migrate db:seed
-    ```
-
-14. De-personalize the game server repository.
-
-    ```bash
-    # ssh netmap@netmap.local
-    cd ~/netmap
-    git remote rm origin
-    git remote add origin git@git.pwnb.us:netmap-server.git
-    ```
-
-15. Follow the instructions in `vm-server-use.md` for development.
+12. Follow the instructions in `vm-server-use.md` for development.
