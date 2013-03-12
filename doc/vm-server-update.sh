@@ -4,8 +4,8 @@ set -o errexit  # Stop the script on the first error.
 set -o nounset  # Catch un-initialized variables.
 
 # If the server repository is already checked out, run the script from there.
-if [ -f ~/netmap/doc/vm-server-update.sh ]; then
-  if [ ! "$*" = "git-pulled" ]; then
+if [ -f ~/netmap/doc/vm-server-update.sh ] ; then
+  if [ "$*" != "git-pulled" ] ; then
     cd ~/netmap
     git checkout master
     git pull https://git.pwnb.us/netmap/netmap-server.git master
@@ -14,9 +14,9 @@ if [ -f ~/netmap/doc/vm-server-update.sh ]; then
 fi
 
 # Password-less sudo.
-if ! sudo grep "netmap ALL=[(]ALL:ALL[)] NOPASSWD: ALL" /etc/sudoers; then
+if ! sudo grep "netmap ALL=[\(]ALL:ALL[\)] NOPASSWD: ALL" /etc/sudoers ; then
   # This line should only be added once.
-  sudo sh -c "echo netmap ALL=(ALL:ALL) NOPASSWD: ALL >> /etc/sudoers"
+  sudo sh -c "echo netmap ALL=\(ALL:ALL\) NOPASSWD: ALL >> /etc/sudoers"
 fi
 
 # Generic update.
@@ -71,7 +71,7 @@ sudo apt-get install -y libmapnik-dev mapnik-utils
 sudo gem install ruby_mapnik
 
 # If the repository is already checked out, update the code.
-if [ -d ~/netmap ]; then
+if [ -d ~/netmap ] ; then
   cd ~/netmap
   git checkout master
   git pull https://git.pwnb.us/netmap/netmap-server.git master
@@ -80,7 +80,7 @@ if [ -d ~/netmap ]; then
 fi
 
 # Otherwise, check out the repository.
-if [ ! -d ~/netmap ]; then
+if [ ! -d ~/netmap ] ; then
   cd ~
   git clone https://git.pwnb.us/netmap/netmap-server.git netmap
   cd ~/netmap

@@ -19,7 +19,7 @@ have OSX, install the two packages on the
     * Type: Linux
     * Version: Ubuntu 64-bit
     * RAM: 1024Mb
-    * Disk: VDI, dynamic, 10Gb
+    * Disk: VDI, dynamic, 16Gb
 
 5. Change the settings (Machine > Settings in the VirtualBox menu)
     * Audio > uncheck Enable Audio
