@@ -1,0 +1,17 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav.top-bar, nav.top-bar.expanded {
+  width: 100%;
+  background-color: rgba(17, 17, 17, 0.65);
+  z-index: 1000;
+}
+
+#contents {
+  width: 100%;
+  height: 100%;
+}

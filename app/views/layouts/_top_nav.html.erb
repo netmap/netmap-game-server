@@ -1,0 +1,19 @@
+<nav class="top-bar">
+  <ul class="title-area">
+    <li class="name">
+      <h1><%= link_to 'NetMap', session_path %></h1>
+    </li>
+    <li class="toggle-topbar menu-icon">
+      <a href="#"><span></span></a>
+    </li>
+  </ul>
+  <section class="top-bar-section">
+    <ul class="left">
+      <li><%= link_to 'Map', map_tiles_path %></li>
+      <li><%= link_to 'Guide', '#'  %></li>
+    </ul>
+    <ul class="right">
+      <li><%= link_to 'Sign off', session_path, method: :delete %></li>
+    </ul>
+  </section>
+</nav>

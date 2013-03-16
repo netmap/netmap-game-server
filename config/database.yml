@@ -22,6 +22,8 @@ development:
   pool: 5
   username: netmap
   password:
+  su_username: netmap
+  su_password:
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -34,6 +36,8 @@ test:
   pool: 5
   username: netmap
   password:
+  su_username: netmap
+  su_password:
 
 production:
   adapter: postgis
@@ -43,6 +47,8 @@ production:
   pool: 5
   username: netmap
   password:
+  su_username: netmap
+  su_password:
 
 gis:
   adapter: postgis
