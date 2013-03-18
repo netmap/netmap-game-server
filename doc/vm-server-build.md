@@ -22,13 +22,22 @@ have OSX, install the two packages on the
     * Disk: VDI, dynamic, 16Gb
 
 5. Change the settings (Machine > Settings in the VirtualBox menu)
-    * Audio > uncheck Enable Audio
-    * Network > Adapter 1 > Advanced > Adapter Type: virtio-net
-    * Network > Adapter 2
-        * Check Enable network adapter
-        * Attached to > Host-only Adapter
-        * Advanced > Adapter Type: virtio-net
-    * Ports > USB > uncheck Enable USB 2.0 (EHCI) Controller
+    * `Audio` > uncheck `Enable Audio`
+    * `Network` > `Adapter 1`
+        * `Advanced` > `Adapter Type`: virtio-net
+        * `Advanced` > `Port Forwarding`, add the following rule
+            * Name: Rails
+            * Protocol: TCP
+            * Host IP: 0.0.0.0
+            * Host Port: 9200
+            * Guest IP: _(leave blank)_
+            * Guest Port: 9000
+    * `Network` > `Adapter 2`
+        * Check `Enable network adapter`
+        * `Attached to` > `Host-only Adapter`
+        * `Name` > `vboxnet0`
+        * `Advanced` > `Adapter Type`: virtio-net
+    * `Ports` > `USB` > uncheck `Enable USB 2.0 (EHCI) Controller`
 
 6. Start VM and set up the server.
     * Select the Ubuntu ISO downloaded earlier.
@@ -40,6 +49,7 @@ have OSX, install the two packages on the
         * Confirm using a weak password
         * Encrypt home directory: no
         * Partitioning: Guided - use entire disk (no LVM or encryption)
+        * Write changes to disk: Yes
         * Software to install: OpenSSH server
 
 7. After the VM restarts, set up networking.

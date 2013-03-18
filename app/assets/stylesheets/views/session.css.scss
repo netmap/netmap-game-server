@@ -8,6 +8,35 @@
     @include grid-column($columns: 4, $offset: 1);
   }
   #welcome-join-button {
-    @include grid-column($columns: 4, $offset: 2);
+    @include grid-column($columns: 4, $offset: 1);
+  }
+}
+
+#signin-container {
+  @include grid-column($columns: 7);
+
+  #signin-form {
+    #signin-play-button, #signin-reset-password-button {
+      @include single-transition;
+      @include inset-shadow($active: true);
+    }
+    #signin-play-button {
+      @include button($padding: $button-med, $is-input: false);
+      @include grid-column($columns: 5, $offset: 1);
+    }
+    #signin-reset-password-button {
+      @include grid-column($columns: 4, $offset: 1);
+    }
+  }
+}
+
+#signin-join-container {
+  @include grid-column($columns: 5);
+
+  #signin-join-button {
+    @include button($padding: $button-med, $full-width: true,
+                    $is-input: false);
+    @include single-transition;
+    @include inset-shadow($active: true);
   }
 }

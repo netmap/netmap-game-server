@@ -1,4 +1,4 @@
-<h1>Play NetMap</h1>
+<h2>Play NetMap</h2>
 
 <% if @redirect_url %>
 <p>
@@ -7,7 +7,9 @@
 </p>
 <% end %>
 
-<%= form_tag session_path do %>
+<section id="signin-container">
+
+<%= form_tag session_path, id: 'signin-form' do %>
   <div class="field">
     <%= label_tag :email, 'Email Address' %><br />
     <span class="value">
@@ -24,12 +26,25 @@
   </div>
 
   <div class="actions">
-    <%= button_tag 'Log in', name: 'login', value: 'requested' %>
+    <%= button_tag 'Play', name: 'login', value: 'requested',
+          id: 'signin-play-button' %>
     <%= button_tag 'Reset Password', name: 'reset_password',
-          value: 'requested', formaction: reset_password_session_path %>
+          id: 'signin-reset-password-button', value: 'requested',
+          formaction: reset_password_session_path %>
 
     <% if @redirect_url %>
     <%= hidden_field_tag :redirect_url, @redirect_url %>
     <% end %>
   </div>
 <% end %>
+
+</section>
+
+<section id="signin-join-container">
+  <p>
+    Don't have an account yet?
+  </p>
+  <p>
+    <%= link_to 'Join', new_user_path, id: 'signin-join-button' %>
+  </p>
+</section>
