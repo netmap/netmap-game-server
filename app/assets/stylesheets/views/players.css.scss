@@ -1,0 +1,8 @@
+#new-player {
+  #new-player-button {
+    @include button($padding: $button-lrg, $full-width: true,
+                    $is-input: false);
+    @include single-transition;
+    @include inset-shadow($active: true);
+  }
+}

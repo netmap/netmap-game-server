@@ -1,0 +1,13 @@
+#welcome-page {
+  #welcome-play-button, #welcome-join-button {
+    @include button($padding: $button-lrg, $is-input: false);
+    @include single-transition;
+    @include inset-shadow($active: true);
+  }
+  #welcome-play-button {
+    @include grid-column($columns: 4, $offset: 1);
+  }
+  #welcome-join-button {
+    @include grid-column($columns: 4, $offset: 2);
+  }
+}

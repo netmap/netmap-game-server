@@ -6,16 +6,13 @@
   <title>NetMap</title>
 
   <%= favicon_link_tag image_path('favicon.png') %>
-  <%= stylesheet_link_tag 'application', media: 'all',
-                          'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 
 <body>
-<% if current_user %>
 <%= render 'layouts/top_nav' %>
-<% end %>
 
 <article id="contents">
 <%= yield %>

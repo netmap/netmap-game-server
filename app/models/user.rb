@@ -22,4 +22,7 @@ class User < ActiveRecord::Base
 
   # Flag set for site administrators.
   validates :admin, :inclusion => { :in => [true, false], :allow_nil => false }
+
+  # The player owned by the user.
+  has_one :player, inverse_of: :user, dependent: :destroy
 end

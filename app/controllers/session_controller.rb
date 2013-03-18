@@ -13,6 +13,10 @@ class SessionController < ApplicationController
   def home
     # Pull information about the current user.
     @user = current_user
+
+    unless @user.player
+      redirect_to new_player_url
+    end
   end
   private :home
 

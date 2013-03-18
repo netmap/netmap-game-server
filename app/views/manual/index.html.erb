@@ -1,0 +1,11 @@
+<h1>Game Manual</h1>
+
+<ol id="manual-toc">
+<% @sections.each do |section| %>
+  <li>
+    <%= link_to manual_section_url(section[:name]) do %>
+      <%= section[:number] %>. <%= section[:name].capitalize %>
+    <% end %>
+  </li>
+<% end %>
+</ol>

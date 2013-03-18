@@ -7,11 +7,19 @@ html, body {
 
 nav.top-bar, nav.top-bar.expanded {
   width: 100%;
-  background-color: rgba(17, 17, 17, 0.65);
   z-index: 1000;
+
+  &.signed-in {
+    background-color: rgba(17, 17, 17, 0.65);
+  }
+  &.not-signed-in {
+    background-color: rgb(0, 0, 0);
+  }
 }
 
 #contents {
   width: 100%;
   height: 100%;
+
+  @include grid-row($behavior: false);
 }

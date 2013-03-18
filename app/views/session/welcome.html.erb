@@ -1,5 +1,15 @@
-<p>
-  This view gets displayed when the user is not logged in. Entice the user to
-  sign up for your application, and allow them to
-  <%= link_to 'Log in', new_session_path %>.
-</p>
+<h1>NetMap</h1>
+
+<section id="welcome-page">
+  <p>
+    Blurb that describes NetMap in one sentence and convinces users to join.
+  </p>
+
+  <p>
+    <%= link_to 'Play', new_session_path, id: 'welcome-play-button' %>
+  </p>
+
+  <p>
+    <%= link_to 'Join', new_user_path, id: 'welcome-join-button' %>
+  </p>
+</section>

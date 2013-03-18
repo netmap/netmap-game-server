@@ -45,7 +45,7 @@ sudo add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
 sudo apt-get update -qq
 sudo apt-get install -y postgis
 
-# osm2pgsql 
+# osm2pgsql
 sudo add-apt-repository -y ppa:kakrueger/openstreetmap  # osm2pgsql 0.81
 sudo apt-get update -qq
 sudo apt-get install -y osm2pgsql
@@ -90,6 +90,6 @@ if [ ! -d ~/netmap ] ; then
 
   # Switch the repository URL to the one that accepts pushes.
   git remote rm origin
-  git remote add origin git@git.pwnb.us:netmap-server.git
+  git remote add origin git@git.pwnb.us:netmap/netmap-server.git
 fi
 

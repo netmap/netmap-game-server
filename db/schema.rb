@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130316054813) do
+ActiveRecord::Schema.define(version: 20130318072227) do
 
   create_table "credentials", force: true do |t|
     t.integer  "user_id",                null: false
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 20130316054813) do
   add_index "credentials", ["type", "name"], :name => "index_credentials_on_type_and_name", :unique => true
   add_index "credentials", ["type", "updated_at"], :name => "index_credentials_on_type_and_updated_at"
   add_index "credentials", ["user_id", "type"], :name => "index_credentials_on_user_id_and_type"
+
+  create_table "players", force: true do |t|
+    t.string   "name",       limit: 32,             null: false
+    t.integer  "user_id",                           null: false
+    t.integer  "faction",               default: 0, null: false
+    t.integer  "level",                 default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "players", ["name"], :name => "index_players_on_name", :unique => true
+  add_index "players", ["user_id"], :name => "index_players_on_user_id", :unique => true
 
   create_table "users", force: true do |t|
     t.string   "exuid",      limit: 32,                 null: false
