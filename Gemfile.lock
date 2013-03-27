@@ -46,7 +46,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.1)
+    coffee-script-source (1.6.2)
     columnize (0.3.6)
     creole (0.5.0)
     debug_inspector (0.0.2)
@@ -60,7 +60,7 @@ GEM
     execjs (1.4.0)
       multi_json (~> 1.0)
     expression_parser (0.9.0)
-    faraday (0.8.6)
+    faraday (0.8.7)
       multipart-post (~> 1.1)
     fbgraph (1.10.0)
       activesupport
@@ -79,7 +79,7 @@ GEM
     foreman (0.62.0)
       thor (>= 0.13.6)
     github-markup (0.7.5)
-    hashie (2.0.2)
+    hashie (2.0.3)
     hike (1.2.1)
     httpauth (0.2.0)
     i18n (0.6.4)
@@ -92,7 +92,7 @@ GEM
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.0)
-    libv8 (3.11.8.13)
+    libv8 (3.11.8.17)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -107,8 +107,8 @@ GEM
       redcarpet (>= 2.1.1)
       wikicloth (>= 0.8.0)
     mime-types (1.21)
-    minitest (4.6.2)
-    multi_json (1.7.0)
+    minitest (4.7.0)
+    multi_json (1.7.2)
     multi_xml (0.5.3)
     multipart-post (1.2.0)
     oauth2 (0.9.1)
@@ -146,11 +146,11 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.17.0, < 2.0)
     raindrops (0.10.0)
-    rake (10.0.3)
+    rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (2.2.2)
-    ref (1.0.2)
+    ref (1.0.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rgeo (0.3.20)
@@ -199,7 +199,7 @@ GEM
       builder
       expression_parser
     yajl-ruby (1.1.0)
-    zurb-foundation (4.0.8)
+    zurb-foundation (4.0.9)
       sass (>= 3.2.0)
 
 PLATFORMS
@@ -221,6 +221,7 @@ DEPENDENCIES
   openlayers-rails (>= 0.0.3)
   pg
   rails (>= 4.0.0.beta1)
+  rdoc (~> 3.12)
   ruby_mapnik (>= 0.1.5)
   sass-rails (~> 4.0.0.beta1)
   therubyracer (>= 0.11.4)

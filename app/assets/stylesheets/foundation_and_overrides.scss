@@ -43,8 +43,8 @@ $body-font-weight: 400;
 // $shiny-edge-active-color: rgba(#000, .2);
 
 // We use this to control whether or not CSS classes come through in the gem files.
-// $include-html-classes: true;
-// $include-print-styles: true;
+$include-html-classes: false;
+$include-print-styles: false;
 
 // Modular html classes
 // $include-html-grid-classes: $include-html-classes;

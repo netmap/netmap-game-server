@@ -36,6 +36,7 @@ gem 'authpwn_rails', '>= 0.14.0'
 
 # Markdown for the manual.
 gem 'markdpwn', '>= 0.1.5'
+gem 'rdoc', '~> 3.12'  # Help bundler do dependency resolution.
 
 # Tile generator.
 gem 'ruby_mapnik', '>= 0.1.5'

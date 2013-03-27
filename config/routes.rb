@@ -11,4 +11,6 @@ Netmap::Application.routes.draw do
 
   get 'manual/:name' => 'manual#show', as: :manual_section
   get 'manual(:.format)' => 'manual#index', as: :manual
+
+  get 'dev_mode' => 'dev_mode#index', as: :dev_mode
 end

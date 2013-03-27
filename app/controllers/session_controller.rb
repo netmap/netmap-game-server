@@ -17,6 +17,9 @@ class SessionController < ApplicationController
     unless @user.player
       redirect_to new_player_url
     end
+    if @user.admin?
+      redirect_to dev_mode_url
+    end
   end
   private :home
 

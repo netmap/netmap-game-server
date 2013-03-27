@@ -21,10 +21,12 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    @user.admin = true if User.count == 0  # Bootstrap admin privileges.
 
     respond_to do |format|
       if @user.save
         format.html do
+          set_session_current_user @user
           redirect_to session_url
         end
         format.json do
