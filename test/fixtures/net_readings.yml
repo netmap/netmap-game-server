@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  player_id_id: 
+  digest: MyString
+  json_data: MyText
+
+two:
+  player_id_id: 
+  digest: MyString
+  json_data: MyText

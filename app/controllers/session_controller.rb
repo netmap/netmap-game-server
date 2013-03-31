@@ -11,14 +11,13 @@ class SessionController < ApplicationController
 
   # Sets up the 'session/home' view. A user is logged in.
   def home
-    # Pull information about the current user.
     @user = current_user
 
     unless @user.player
-      redirect_to new_player_url
+      return redirect_to(new_player_url)
     end
     if @user.admin?
-      redirect_to dev_mode_url
+      return redirect_to(dev_mode_url)
     end
   end
   private :home

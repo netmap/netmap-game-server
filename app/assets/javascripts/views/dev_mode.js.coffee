@@ -1,14 +1,15 @@
 $ ->
-  $('#dev-gps-start').click ->
-    NetMap.gpsStart()
-  $('#dev-gps-stop').click ->
-    NetMap.gpsStop()
-  $('#dev-gps-button').click ->
-    if typeof NetMap is 'undefined'
-      traceText = 'NetMap undefined'
-    else if not NetMap.getGpsTrace
-      traceText = 'NetMap.getGpsTrace missing'
-    else
-      traceText = NetMap.getGpsTrace()
+  NetMap.Pil.setReadingsUploadUrl window.location.origin + '/net_readings'
 
-    $('#dev-gps-data').text traceText
+  $('#dev-gps-start').click ->
+    NetMap.Pil.gpsStart()
+  $('#dev-gps-stop').click ->
+    NetMap.Pil.gpsStop()
+  $('#dev-gps-button').click ->
+    jsonString = NetMap.Pil.gpsInfoJson()
+    $('#dev-gps-data').text jsonString
+  $('#dev-store-button').click ->
+    jsonString = NetMap.Pil.readSensor()
+  $('#dev-upload-button').click ->
+    jsonString = NetMap.Pil.uploadReadingPack()
+

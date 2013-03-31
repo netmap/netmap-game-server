@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_user_is_admin, except: [:new, :create]
 
   # GET /users
   # GET /users.json

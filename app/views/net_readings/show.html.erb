@@ -1,0 +1,15 @@
+<p>
+  <strong>Player:</strong>
+  <%= @net_reading.player.name %>
+</p>
+
+<p>
+  <strong>Digest:</strong>
+  <%= @net_reading.digest %>
+</p>
+
+<h2>Data</h2>
+
+<pre>
+<%= JSON.pretty_generate JSON.parse(@net_reading.json_data) %>
+</pre>

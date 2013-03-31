@@ -4,4 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   authenticates_using_session
+
+  include UserFilters
 end

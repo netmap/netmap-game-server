@@ -1,0 +1,20 @@
+<h1>Listing net_readings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player</th>
+      <th>Digest</th>
+      <th>Reading Keys</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @net_readings.each do |net_reading| %>
+    <tr>
+      <td><%= link_to net_reading.player.name, net_reading.player %></td>
+      <td><%= link_to net_reading.digest, net_reading %></td>
+      <td><%= JSON.parse(net_reading.json_data).keys.sort.join ', ' %></td>
+    <% end %>
+  </tbody>
+</table>

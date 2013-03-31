@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130318072227) do
+ActiveRecord::Schema.define(version: 20130331062350) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "postgis"
 
   create_table "credentials", force: true do |t|
     t.integer  "user_id",                null: false
@@ -24,6 +28,16 @@ ActiveRecord::Schema.define(version: 20130318072227) do
   add_index "credentials", ["type", "name"], :name => "index_credentials_on_type_and_name", :unique => true
   add_index "credentials", ["type", "updated_at"], :name => "index_credentials_on_type_and_updated_at"
   add_index "credentials", ["user_id", "type"], :name => "index_credentials_on_user_id_and_type"
+
+  create_table "net_readings", force: true do |t|
+    t.integer  "player_id"
+    t.string   "digest",     limit: 64, null: false
+    t.text     "json_data",             null: false
+    t.datetime "created_at"
+  end
+
+  add_index "net_readings", ["digest"], :name => "index_net_readings_on_digest", :unique => true
+  add_index "net_readings", ["player_id"], :name => "index_net_readings_on_player_id"
 
   create_table "players", force: true do |t|
     t.string   "name",       limit: 32,             null: false
