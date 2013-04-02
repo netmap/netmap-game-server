@@ -95,7 +95,7 @@ have OSX, install the two packages on the
 
     ```bash
     # ssh netmap@netmap.local
-    curl -fLsS https://git.pwnb.us/netmap/netmap-server/raw/master/doc/vm-server-update.sh | sh
+    curl -fLsS https://github.com/netmap/netmap-server/raw/master/doc/vm-server-update.sh | sh
     ```
 
 11. Shut down the VM if you want to back up the disk image.

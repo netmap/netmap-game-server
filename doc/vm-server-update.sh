@@ -8,7 +8,7 @@ if [ -f ~/netmap/doc/vm-server-update.sh ] ; then
   if [ "$*" != "git-pulled" ] ; then
     cd ~/netmap
     git checkout master
-    git pull https://git.pwnb.us/netmap/netmap-server.git master
+    git pull git://github.com/netmap/netmap-server.git master
     exec ~/netmap/doc/vm-server-update.sh git-pulled
   fi
 fi
@@ -54,7 +54,7 @@ sudo apt-get install -y osm2pgsql
 sudo apt-get install -y libsqlite3-dev sqlite3
 
 # Ruby and Rubygems, used to run Rails.
-sudo apt-get install -y ruby ruby-dev sqlite3
+sudo apt-get install -y ruby ruby-dev
 sudo env REALLY_GEM_UPDATE_SYSTEM=1 gem update --system 1.8.25
 
 # Bundler, used to install all the gems in a Gemfile.
@@ -74,7 +74,7 @@ sudo gem install ruby_mapnik
 if [ -d ~/netmap ] ; then
   cd ~/netmap
   git checkout master
-  git pull https://git.pwnb.us/netmap/netmap-server.git master
+  git pull git://github.com/netmap/netmap-server.git master
   bundle install
   rake db:migrate db:seed
 fi
@@ -82,7 +82,7 @@ fi
 # Otherwise, check out the repository.
 if [ ! -d ~/netmap ] ; then
   cd ~
-  git clone https://git.pwnb.us/netmap/netmap-server.git netmap
+  git clone git://github.com/netmap/netmap-server.git netmap
   cd ~/netmap
   bundle install
   rake db:create db:migrate db:seed
@@ -90,6 +90,6 @@ if [ ! -d ~/netmap ] ; then
 
   # Switch the repository URL to the one that accepts pushes.
   git remote rm origin
-  git remote add origin git@git.pwnb.us:netmap/netmap-server.git
+  git remote add origin git@github.com:netmap/netmap-server.git
 fi
 

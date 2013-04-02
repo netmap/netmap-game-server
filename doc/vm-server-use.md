@@ -30,7 +30,7 @@ two packages on the [FUSE for OSX page](http://osxfuse.github.com/).
     # press Enter all the way (default key type, no passphrase)
     ```
 
-7. [Upload your SSH key to the Git hosting site](https://git.pwnb.us/_/ssh_keys/new).
+7. [Upload your SSH key to the Git hosting site](https://github.com/settings/ssh).
 
 8. Set up public key SSH login and verify that it works.
 
