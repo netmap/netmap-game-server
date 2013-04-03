@@ -1,5 +1,12 @@
 # Idempotent VM setup steps.
 
+# Git URL that allows un-authenticated pulls.
+GIT_PUBLIC_URL=git://github.com/netmap/netmap-server.git
+
+# Git URL that allows pushes, but requires authentication.
+GIT_PUSH_URL=git@github.com:netmap/netmap-server.git
+
+
 set -o errexit  # Stop the script on the first error.
 set -o nounset  # Catch un-initialized variables.
 
@@ -8,7 +15,7 @@ if [ -f ~/netmap/doc/vm-server-update.sh ] ; then
   if [ "$*" != "git-pulled" ] ; then
     cd ~/netmap
     git checkout master
-    git pull git://github.com/netmap/netmap-server.git master
+    git pull "$GIT_PUBLIC_URL" master
     exec ~/netmap/doc/vm-server-update.sh git-pulled
   fi
 fi
@@ -74,7 +81,7 @@ sudo gem install ruby_mapnik
 if [ -d ~/netmap ] ; then
   cd ~/netmap
   git checkout master
-  git pull git://github.com/netmap/netmap-server.git master
+  git pull "$GIT_PUBLIC_URL" master
   bundle install
   rake db:migrate db:seed
 fi
@@ -82,7 +89,7 @@ fi
 # Otherwise, check out the repository.
 if [ ! -d ~/netmap ] ; then
   cd ~
-  git clone git://github.com/netmap/netmap-server.git netmap
+  git clone "$GIT_PUBLIC_URL" netmap
   cd ~/netmap
   bundle install
   rake db:create db:migrate db:seed
@@ -90,6 +97,6 @@ if [ ! -d ~/netmap ] ; then
 
   # Switch the repository URL to the one that accepts pushes.
   git remote rm origin
-  git remote add origin git@github.com:netmap/netmap-server.git
+  git remote add origin "$GIT_PUSH_URL"
 fi
 
