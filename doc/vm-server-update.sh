@@ -62,7 +62,7 @@ sudo apt-get install -y libsqlite3-dev sqlite3
 
 # Ruby and Rubygems, used to run Rails.
 sudo apt-get install -y ruby ruby-dev
-sudo env REALLY_GEM_UPDATE_SYSTEM=1 gem update --system 1.8.25
+sudo env REALLY_GEM_UPDATE_SYSTEM=1 gem update
 
 # Bundler, used to install all the gems in a Gemfile.
 sudo gem install bundler
