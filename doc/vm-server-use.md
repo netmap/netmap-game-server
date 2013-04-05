@@ -73,3 +73,12 @@ two packages on the [FUSE for OSX page](http://osxfuse.github.com/).
     ```
 
 3. Access the server at [http://netmap.local:9000/](http://netmap.local:9000/)
+
+
+### Production
+
+The following command runs the game server in production mode.
+
+```bash
+foreman start --procfile=Procfile.prod --env=config/production.env
+```

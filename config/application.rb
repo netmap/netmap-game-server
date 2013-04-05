@@ -19,6 +19,9 @@ module Netmap
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    # Get rid of warnings when queries include e-mail addresses.
+    # config.active_record.disable_implicit_join_references = true
+
     config.generators do |g|
       # Skip app/assets/stylesheets/scaffolds.css.scss
       g.stylesheets false

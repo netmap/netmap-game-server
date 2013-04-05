@@ -39,6 +39,61 @@ sudo apt-get install -y software-properties-common
 # Git.
 sudo apt-get install -y git
 
+# nginx.
+sudo apt-add-repository -y ppa:nginx/development
+sudo apt-get update -qq
+sudo apt-get install -y nginx
+
+# nginx configuration.
+(
+cat <<'EOF'
+upstream netmap_rails {
+  server 127.0.0.1:9000;
+}
+
+server {
+  listen 443 ssl;
+  listen 80;
+  charset utf-8;
+  root /home/netmap/netmap/public;
+  client_max_body_size 48M;
+  error_page 404 /404.html;
+  error_page 500 502 503 504 /500.html;
+  try_files $uri @rails;
+
+  location ~ ^/assets/ {
+    try_files $uri @rails;
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+
+    open_file_cache max=1000 inactive=500s;
+    open_file_cache_valid 600s;
+    open_file_cache_errors on;
+  }
+
+  location @rails {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $host;
+    proxy_redirect off;
+    proxy_connect_timeout 2;
+    proxy_read_timeout 86400;
+    proxy_pass http://netmap_rails;
+  }
+}
+}
+EOF
+) > netmap.conf
+sudo mv netmap.conf /etc/nginx/sites-available
+sudo chown root:root /etc/nginx/sites-available/netmap.conf
+sudo ln -s /etc/nginx/sites-available/netmap.conf \
+           /etc/nginx/sites-enabled/netmap.conf
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo /etc/init.d/nginx reload
+
+
 # Postgresql.
 sudo apt-get install -y libpq-dev postgresql postgresql-client \
     postgresql-contrib postgresql-server-dev-all
