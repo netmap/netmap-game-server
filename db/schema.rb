@@ -13,10 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20130331062350) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "postgis"
-
   create_table "credentials", force: true do |t|
     t.integer  "user_id",                null: false
     t.string   "type",       limit: 32,  null: false

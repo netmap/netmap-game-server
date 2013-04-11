@@ -16,5 +16,8 @@
 /log/*.log
 /tmp
 
+# Ignore any SSL certificates.
+/config/ssl
+
 # Ignore OSM data.
 /vendor/osm

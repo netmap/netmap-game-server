@@ -83,7 +83,6 @@ server {
     proxy_pass http://netmap_rails;
   }
 }
-}
 EOF
 ) > netmap.conf
 sudo mv netmap.conf /etc/nginx/sites-available
