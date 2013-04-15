@@ -18,11 +18,11 @@ development:
   adapter: postgis
   encoding: unicode
   postgis_extension: true
-  database: netmap_development
+  database: netmap-game
   pool: 5
-  username: netmap
+  username: netmap-game
   password:
-  su_username: netmap
+  su_username: netmap-game
   su_password:
 
 # Warning: The database defined as "test" will be erased and
@@ -32,7 +32,7 @@ test:
   adapter: postgis
   encoding: unicode
   postgis_extension: true
-  database: netmap_test
+  database: netmap-game_test
   pool: 5
   username: netmap
   password:
@@ -43,7 +43,7 @@ production:
   adapter: postgis
   encoding: unicode
   postgis_extension: true
-  database: netmap_production
+  database: netmap
   pool: 5
   username: netmap
   password:

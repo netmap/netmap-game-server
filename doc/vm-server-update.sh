@@ -1,11 +1,12 @@
 # Idempotent VM setup steps.
 
-# Git URL that allows un-authenticated pulls.
-GIT_PUBLIC_URL=git://github.com/netmap/netmap-server.git
+# Git URLs that allow un-authenticated pulls.
+GAME_PUBLIC_URL=git://github.com/netmap/netmap-server.git
+METRICS_PUBLIC_URL=git://github.com/netmap/netmap-metrics.git
 
-# Git URL that allows pushes, but requires authentication.
-GIT_PUSH_URL=git@github.com:netmap/netmap-server.git
-
+# Git URLs that allow pushes, but require authentication.
+GAME_PUSH_URL=git@github.com:netmap/netmap-server.git
+METRICS_PUBLIC_URL=git@github.com:netmap/netmap-metrics.git
 
 set -o errexit  # Stop the script on the first error.
 set -o nounset  # Catch un-initialized variables.
@@ -15,7 +16,7 @@ if [ -f ~/netmap/doc/vm-server-update.sh ] ; then
   if [ "$*" != "git-pulled" ] ; then
     cd ~/netmap
     git checkout master
-    git pull "$GIT_PUBLIC_URL" master
+    git pull "$GAME_PUBLIC_URL" master
     exec ~/netmap/doc/vm-server-update.sh git-pulled
   fi
 fi
@@ -44,7 +45,7 @@ sudo apt-add-repository -y ppa:nginx/development
 sudo apt-get update -qq
 sudo apt-get install -y nginx
 
-# nginx configuration.
+# nginx configuration for the game server.
 (
 cat <<'EOF'
 upstream netmap_rails {
@@ -111,19 +112,29 @@ sudo add-apt-repository -y ppa:kakrueger/openstreetmap  # osm2pgsql 0.81
 sudo apt-get update -qq
 sudo apt-get install -y osm2pgsql
 
+# node.js, used by the metrics server.
+sudo add-apt-repository -y ppa:chris-lea/node.js
+sudo apt-get update -qq
+sudo apt-get install -y nodejs
+
+# CoffeeScript provides cake, which runs the Cakefile in the metrics server.
+sudo npm install -g coffee-script
+
 # SQLite, because Rails is uncomfortable without it.
 sudo apt-get install -y libsqlite3-dev sqlite3
 
-# Ruby and Rubygems, used to run Rails.
+# Ruby and Rubygems, used by the game server, which is written in Rails.
 sudo apt-get install -y ruby ruby-dev
 sudo env REALLY_GEM_UPDATE_SYSTEM=1 gem update
 
 # Bundler, used to install all the gems in a Gemfile.
 sudo gem install bundler
 
+# Foreman sets up system services to run the servers as daemons.
+sudo gem install foreman
+
 # libv8, used by the therubyracer, chokes when installed by bundler.
 sudo gem install therubyracer
-
 
 # Mapnik, used to render map tiles.
 sudo add-apt-repository -y ppa:mapnik/v2.1.0
@@ -131,26 +142,49 @@ sudo apt-get update -qq
 sudo apt-get install -y libmapnik-dev mapnik-utils
 sudo gem install ruby_mapnik
 
-# If the repository is already checked out, update the code.
+# If the game server repository is already checked out, update the code.
 if [ -d ~/netmap ] ; then
   cd ~/netmap
   git checkout master
-  git pull "$GIT_PUBLIC_URL" master
+  git pull "$GAME_PUBLIC_URL" master
   bundle install
   rake db:migrate db:seed
 fi
 
-# Otherwise, check out the repository.
-if [ ! -d ~/netmap ] ; then
+# Otherwise, check out the game server repository.
+if [ ! -d ~/game ] ; then
   cd ~
-  git clone "$GIT_PUBLIC_URL" netmap
-  cd ~/netmap
+  git clone "$GAME_PUBLIC_URL" game
+  cd ~/game
   bundle install
   rake db:create db:migrate db:seed
   rake osm:create osm:load
 
   # Switch the repository URL to the one that accepts pushes.
   git remote rm origin
-  git remote add origin "$GIT_PUSH_URL"
+  git remote add origin "$GAME_PUSH_URL"
 fi
 
+# If the metrics server repository is already checked out, update the code.
+if [ -d ~/metrics ] ; then
+  cd ~/metrics
+  git checkout master
+  git pull "$METRICS_PUBLIC_URL" master
+  npm install
+  cake dbmigrate
+  DATABASE_URL=postgres://$user@localhost/netmap
+fi
+
+# Otherwise, check out the metrics server repository.
+if [ ! -d ~/netmap-metrics ] ; then
+  cd ~
+  git clone "$METRICS_PUBLIC_URL" metrics
+  cd ~/metrics
+  bundle install
+  rake db:create db:migrate db:seed
+  rake osm:create osm:load
+
+  # Switch the repository URL to the one that accepts pushes.
+  git remote rm origin
+  git remote add origin "$GAME_PUSH_URL"
+fi
