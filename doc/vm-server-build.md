@@ -31,7 +31,7 @@ have OSX, install the two packages on the
             * Host IP: 0.0.0.0
             * Host Port: 9200
             * Guest IP: _(leave blank)_
-            * Guest Port: 9000
+            * Guest Port: 80
     * `Network` > `Adapter 2`
         * Check `Enable network adapter`
         * `Attached to` > `Host-only Adapter`
@@ -43,9 +43,9 @@ have OSX, install the two packages on the
     * Select the Ubuntu ISO downloaded earlier.
     * Start a server installation, providing default answers, except:
         * Hostname: netmap
-        * Full name: netmap
-        * Username: netmap
-        * Password: netmap
+        * Full name: ubuntu
+        * Username: ubuntu
+        * Password: ubuntu
         * Confirm using a weak password
         * Encrypt home directory: no
         * Partitioning: Guided - use entire disk (no LVM or encryption)
@@ -87,21 +87,21 @@ have OSX, install the two packages on the
 9. Check that networking works by SSH-ing into the server from your Terminal.
 
     ```bash
-    ssh netmap@netmap.local
-    # The password is netmap.
+    ssh ubuntu@netmap.local
+    # The password is ubuntu
     ```
 
 10. Set up the server.
 
     ```bash
-    # ssh netmap@netmap.local
+    # ssh ubuntu@netmap.local
     curl -fLsS https://github.com/netmap/netmap-server/raw/master/doc/vm-server-update.sh | sh
     ```
 
 11. Shut down the VM if you want to back up the disk image.
 
     ```bash
-    # ssh netmap@netmap.local
+    # ssh ubuntu@netmap.local
     sudo poweroff
     ```
 

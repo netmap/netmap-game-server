@@ -5,7 +5,7 @@ This is the game server behind NetMap.
 
 ## Setup
 
-The recommended way of working on the game server code is to
+The recommended method of developing on the game server code is to
 [set up a server development VM](doc/vm-server-use.md).
 
 If you would like to deploy your fork of the game server into production,

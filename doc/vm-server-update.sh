@@ -11,6 +11,12 @@ METRICS_PUBLIC_URL=git@github.com:netmap/netmap-metrics.git
 set -o errexit  # Stop the script on the first error.
 set -o nounset  # Catch un-initialized variables.
 
+# If this is ran as "ubuntu", set up the "netmap" user.
+if [ "$USER" == "ubuntu" ] ; then
+  useradd --home-dir /home/netmap --user-group --groups wheel \
+      --password $(echo "netmap" | openssl passwd -1 -stdin) netmap
+fi
+
 # If the server repository is already checked out, run the script from there.
 if [ -f ~/netmap/doc/vm-server-update.sh ] ; then
   if [ "$*" != "git-pulled" ] ; then

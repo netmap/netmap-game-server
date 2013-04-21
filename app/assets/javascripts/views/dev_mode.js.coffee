@@ -1,5 +1,18 @@
+initRecorder = ->
+  url = window.location.origin + '/net_readings'
+
+  if cookieMatch = /(^|;)\s?_netmap_session=([^;+])/.exec(document.cookie)
+    cookie = unescape(cookieMatch[2])
+  else
+    cookie = ''
+
+  csrfToken = document.querySelector('meta[name="csrf-token"]').
+      getAttribute('content')
+
+  NetMap.Pil.setReadingsUploadBackend url, cookie, csrfToken
+
 $ ->
-  NetMap.Pil.setReadingsUploadUrl window.location.origin + '/net_readings'
+  initRecorder()
 
   $('#dev-gps-start').click ->
     NetMap.Pil.gpsStart()

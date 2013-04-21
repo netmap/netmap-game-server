@@ -62,18 +62,32 @@ class PilClass
   #
   # @param {String} url fully-qualified URL to the HTTP backend that will
   #     recieve readings as POST data
-  setReadingsUploadUrl: (url) ->
-    if url isnt @_dbUploadUrl
+  # @param {String} cookie value of the Cookie HTTP header sent when uploading
+  #     sensor reading data
+  # @param {String} csrfToken value of the X-CSRF-Token HTTP header sent when
+  #     uploading sensor reading data
+  setReadingsUploadBackend: (url, cookie, csrfToken) ->
+    if url isnt @_dbUploadUrl or cookie isnt @_dbUploadCookie or
+        csrfToken isnt @_dbUploadToken
       @_dbUploadUrl = url
-      localStorage.setItem '_dbUpladUrl', url
+      @_dbUploadCookie = cookie
+      @_dbUploadToken = csrfToken
+      localStorage.setItem '_dbUploadBackend', JSON.stringify(
+          url: url, cookie: cookie, token: csrfToken)
     null
 
   # Sets up the sensor readings storage.
   _initRecorder: ->
     @_dbCallbacks = []
     @_db = null
-    @_dbUploadUrl = localStorage.getItem('_dbUploadUrl') or null
-    @_csrfToken = null
+    try
+      dbUploadBackend = JSON.parse localStorage.getItem('_dbUploadBackend')
+    catch jsonError
+      dbUploadBackend = null
+    dbUploadBackend or=  url: 'http://netmap.pwnb.us', cookie: '', token: ''
+    @_dbUploadUrl = dbUploadBackend.url
+    @_dbUploadCookie = dbUploadBackend.cookie
+    @_dbUploadToken = dbUploadBackend.token
 
     request = indexedDB.open 'recorder', 1
     request.onsuccess = (event) =>
@@ -157,13 +171,11 @@ class PilClass
   #
   # @param {String} packData the sensor readings data to be uploaded; this
   #     should be obtained by calling _readPack
-  # @param {String} uploadUrl
+  # @param {String} url the absolue URL of the server receiving the upload
+  # @param {String} csrfToken value of the X-CSRF-Token HTTP header
   # @param {function(Boolean)} callback called when the upload is complete; the
   #     argument will be false if something went wrong during the upload
-  _uploadPackData: (packData, uploadUrl, callback) ->
-    @_csrfToken or= document.querySelector('meta[name="csrf-token"]').
-                             getAttribute('content')
-
+  _uploadPackData: (packData, url, csrfToken, callback) ->
     xhr = new XMLHttpRequest
     xhr.onload = (event) ->
       if xhr.status < 200 or xhr.status >= 300
@@ -174,9 +186,9 @@ class PilClass
     xhr.error = (event) ->
       console.warn 'XHR upload error', event
       callback false
-    xhr.open 'POST', uploadUrl, true
+    xhr.open 'POST', url, true
     xhr.setRequestHeader 'Content-Type', 'text/plain'
-    xhr.setRequestHeader 'X-CSRF-Token', @_csrfToken
+    xhr.setRequestHeader 'X-CSRF-Token', csrfToken
     xhr.responseType = 'text'
     xhr.send packData
 
