@@ -5,13 +5,8 @@ This is the game server behind NetMap.
 
 ## Setup
 
-The recommended method of developing on the game server code is to
-[set up a server development VM](doc/vm-server-use.md).
-
-If you would like to deploy your fork of the game server into production,
-you might be able to reuse
-[the development VM build steps](doc/vm-server-build.md). You will most likely
-fork [the VM setup script](doc/vm-server-update.sh).
+The recommended development environment for the game server code is the
+[NetMap server VM](https://github.com/netmap/netmap-server-vm).
 
 ### Map Data
 
