@@ -20,9 +20,9 @@ development:
   postgis_extension: true
   database: netmap-game
   pool: 5
-  username: netmap-game
+  username: netmap
   password:
-  su_username: netmap-game
+  su_username: netmap
   su_password:
 
 # Warning: The database defined as "test" will be erased and
