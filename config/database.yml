@@ -43,7 +43,7 @@ production:
   adapter: postgis
   encoding: unicode
   postgis_extension: true
-  database: netmap
+  database: netmap-game
   pool: 5
   username: netmap
   password:

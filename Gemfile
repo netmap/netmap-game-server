@@ -5,8 +5,8 @@ gem 'rails', '>= 4.0.0.beta1' # , git: 'git://github.com/rails/rails'
 gem 'pg'
 
 group :assets do
-  gem 'sass-rails',   '~> 4.0.0.beta1'
-  gem 'coffee-rails', '~> 4.0.0.beta1'
+  gem 'sass-rails',   '~> 4.0.0.rc1'
+  gem 'coffee-rails', '~> 4.0.0'
   gem 'coffee-script-source', '>= 1.6.1'
   gem 'zurb-foundation', '>= 4.0.8'
 
@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 1.0.1'
 gem 'unicorn', '>= 4.6.2'
 
 # Launch with foreman.
-gem 'foreman', '>= 0.62.0', require: false
+gem 'foreman', '>= 0.63.0', require: false
 
 # Authentication system.
 gem 'authpwn_rails', '>= 0.14.0'
