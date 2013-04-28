@@ -41,8 +41,7 @@ gem 'rdoc', '~> 3.12'  # Help bundler do dependency resolution.
 gem 'ruby_mapnik', '>= 0.1.5'
 
 # Geo queries.
-#gem 'activerecord-postgis-adapter', '>= 0.6.2',
-gem 'activerecord-postgis-adapter', path: '../activerecord-postgis-adapter'
+gem 'activerecord-postgis-adapter', '>= 0.6.2'
 
 group :development do
   gem 'better_errors'
