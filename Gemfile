@@ -1,17 +1,16 @@
 source 'https://rubygems.org'
 
-gem 'rails', '>= 4.0.0.beta1' # , git: 'git://github.com/rails/rails'
+gem 'rails', '>= 4.0.0.beta1'  # , git: 'git://github.com/rails/rails'
 
 gem 'pg'
 
 group :assets do
   gem 'sass-rails',   '~> 4.0.0.rc1'
   gem 'coffee-rails', '~> 4.0.0'
-  gem 'coffee-script-source', '>= 1.6.1'
-  gem 'zurb-foundation', '>= 4.0.8'
+  gem 'coffee-script-source', '>= 1.6.2'
+  gem 'zurb-foundation', '>= 4.1.5'
 
   gem 'therubyracer', '>= 0.11.4'
-  gem 'libv8', '>= 3.11.8.13'
 
   gem 'openlayers-rails', '>= 0.0.3'
   gem 'uglifier', '>= 1.0.3'
@@ -42,7 +41,8 @@ gem 'rdoc', '~> 3.12'  # Help bundler do dependency resolution.
 gem 'ruby_mapnik', '>= 0.1.5'
 
 # Geo queries.
-gem 'activerecord-postgis-adapter', '>= 0.6.2'
+#gem 'activerecord-postgis-adapter', '>= 0.6.2',
+gem 'activerecord-postgis-adapter', path: '../activerecord-postgis-adapter'
 
 group :development do
   gem 'better_errors'

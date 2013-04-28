@@ -1,3 +1,9 @@
+PATH
+  remote: ../activerecord-postgis-adapter
+  specs:
+    activerecord-postgis-adapter (0.6.2.nonrelease)
+      rgeo-activerecord (~> 0.5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,8 +26,6 @@ GEM
       activesupport (= 4.0.0.beta1)
       arel (~> 4.0.0.beta1)
     activerecord-deprecated_finders (0.0.3)
-    activerecord-postgis-adapter (0.6.2)
-      rgeo-activerecord (~> 0.5.0)
     activesupport (4.0.0.beta1)
       i18n (~> 0.6.2)
       minitest (~> 4.2)
@@ -99,14 +103,14 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    markdpwn (0.1.5)
+    markdpwn (0.1.6)
       RedCloth (>= 4.2.9)
-      creole (>= 0.4.2)
-      github-markup (>= 0.7.4)
-      org-ruby (>= 0.7.1)
-      pygments.rb (>= 0.3.0)
-      rdoc (>= 3.12)
-      redcarpet (>= 2.1.1)
+      creole (>= 0.5.0)
+      github-markup (>= 0.7.5)
+      org-ruby (>= 0.8.1)
+      pygments.rb (>= 0.5.0)
+      rdoc (~> 3.4)
+      redcarpet (>= 2.2.2)
       wikicloth (>= 0.8.0)
     mime-types (1.23)
     minitest (4.7.3)
@@ -201,24 +205,23 @@ GEM
       builder
       expression_parser
     yajl-ruby (1.1.0)
-    zurb-foundation (4.1.2)
+    zurb-foundation (4.1.5)
       sass (>= 3.2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-postgis-adapter (>= 0.6.2)
+  activerecord-postgis-adapter!
   authpwn_rails (>= 0.14.0)
   better_errors
   binding_of_caller
   coffee-rails (~> 4.0.0)
-  coffee-script-source (>= 1.6.1)
+  coffee-script-source (>= 1.6.2)
   debugger
   foreman (>= 0.63.0)
   jbuilder (~> 1.0.1)
   jquery-rails
-  libv8 (>= 3.11.8.13)
   markdpwn (>= 0.1.5)
   openlayers-rails (>= 0.0.3)
   pg
@@ -229,4 +232,4 @@ DEPENDENCIES
   therubyracer (>= 0.11.4)
   uglifier (>= 1.0.3)
   unicorn (>= 4.6.2)
-  zurb-foundation (>= 4.0.8)
+  zurb-foundation (>= 4.1.5)

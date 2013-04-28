@@ -11,10 +11,10 @@ class PilClass
     @_initGeo()
     @_initRecorder()
 
-  # Starts querying the GPS for a position.
+  # Starts querying the platform for a location.
   #
   # This is called when the application becomes active.
-  gpsStart: ->
+  locationOn: ->
     return unless @_geoWatch is null
     @_geoStatus.enabled = true
     @_geoStatus.started = true
@@ -24,8 +24,8 @@ class PilClass
         enableHighAccuracy: true, maximumAge:1000)
     null
 
-  # Stops querying the GPS.
-  gpsStop: ->
+  # Stops querying the platform for a location.
+  locationOff: ->
     return if @_geoWatch is null
     navigator.geolocation.clearWatch @_geoWatch
     null
@@ -33,28 +33,41 @@ class PilClass
   # Reads the current GPS status.
   #
   # @return {String} a JSON-encoded string representing GPS
-  gpsInfoJson: ->
-    JSON.stringify @_geoStatus
+  locationJson: ->
+    JSON.stringify @_geoLocation
 
-  # Sketch: read sensor information and store it in the database.
-  readSensor: ->
+  # Starts reading the device's sensors.
+  #
+  # @param {String} measurements comma-separated list of measurements to be
+  #   performed and included in the reading
+  # @param {String} callbackName the name of a function to be called after all
+  #   the required data was stored in the database; the function will receive
+  #   the reading's digest
+  startReading: (measurements, callbackName) ->
     reading = JSON.stringify
-      gps: JSON.parse(@gpsInfoJson()),
+      gps: @_geoStatus,
+      location: @_geoLocation,
       timestamp: Date.now()
       uid: @_dbUploadUid
-    @_storeReading reading, ->
-      console.log 'done storing'
+    @_storeReading reading, (digest) ->
+      _pil_cb[callbackName](digest)
 
   # Upload queued sensor readings to the server.
-  uploadReadingPack: ->
+  #
+  # @param {String} callbackName the name of a function to be called after the
+  #   readings are uploaded; the function will receive true if there are more
+  #   readings left to be uploaded, and false
+  uploadReadingPack: (callbackName) ->
     @_readPack 128 * 1024, (packData, lastReadingId) =>
       if lastReadingId is 0
-        console.log 'no readings to send'
+        _pil_cb[callbackName](false)
         return
       @_uploadPackData packData, @_dbUploadUrl, (success) =>
         if success
           @_deletePack lastReadingId, =>
-            console.log 'done sending'
+            _pil_cb[callbackName](true)
+        else
+          _pil_cb[callbackName](true)
 
   # Sets the URL of the server that receives the sensor readings.
   #
@@ -62,9 +75,9 @@ class PilClass
   # method.
   #
   # @param {String} url fully-qualified URL to the HTTP backend that will
-  #     recieve readings as POST data
+  #   recieve readings as POST data
   # @param {String} uid user token to be used as the 'uid' property in all the
-  #     sensor reading data
+  #   sensor reading data
   setReadingsUploadBackend: (url, uid) ->
     if url isnt @_dbUploadUrl or uid isnt @_dbUploadUid
       @_dbUploadUrl = url
@@ -73,7 +86,18 @@ class PilClass
           url: url, uid: uid)
     null
 
+  # Saves the site's cookies.
+  #
+  # The saved cookies will be injected into WebView during the next visit.
+  saveCookies: (origin) ->
+    # This is a noop in the browser, because it saves cookies automatically.
+    if origin isnt window.location.origin
+      console.warn 'Wrong origin passed to Pil.saveCookies'
+
   # Sets up the sensor readings storage.
+  #
+  # @private
+  # This method is not in the client PIL.
   _initRecorder: ->
     @_dbCallbacks = []
     @_db = null
@@ -117,29 +141,37 @@ class PilClass
 
   # Queues a sensor reading for later transmission.
   #
+  # @private
+  # This method is not in the client PIL.
+  #
   # @param {String} jsonData the reading's information, encoded as a JSON
   #   string
-  # @param {function()} callback called when the reading is stored
-  #   successsfully
+  # @param {function(String)} callback called when the reading is stored
+  #   successsfully; the callback receives the reading's digest as an argument
   _storeReading: (jsonData, callback) ->
+    digest = sjcl.codec.hex.fromBits sjcl.hash.sha256.hash(jsonData)
     @_recorderDb (db) ->
       transaction = db.transaction 'metrics', 'readwrite'
       metricsStore = transaction.objectStore 'metrics'
       request = metricsStore.put json: jsonData
       transaction.oncomplete = ->
-        callback()
+        callback digest
       transaction.onerror = (event) =>
         console.warn 'IndexedDB write error', event.target.error
+        callback null
     null
 
   # Fetches queued sensor readings from the database, so they can be uploaded.
+  #
+  # @private
+  # This method is not in the client PIL.
   #
   # @param {Number} packSize a guideline for the size of JSON data to be read
   # @param {function(String, Number)}
   _readPack: (packSize, callback) ->
     packBits = []
     readSize = 0
-    lastReadingId = null
+    lastReadingId = 0
 
     @_recorderDb (db) ->
       transaction = db.transaction 'metrics', 'readonly'
@@ -165,6 +197,9 @@ class PilClass
 
   # Uploads an already-assembled pack of sensor readings data to the server.
   #
+  # @private
+  # This method is not in the client PIL.
+  #
   # @param {String} packData the sensor readings data to be uploaded; this
   #     should be obtained by calling _readPack
   # @param {String} url the absolue URL of the server receiving the upload
@@ -188,6 +223,9 @@ class PilClass
 
   # Removes successfully uploaded sensor readings from the database.
   #
+  # @private
+  # This method is not in the client PIL.
+  #
   # @param {Number} lastRecordId the ID of the last reading; this should be
   #     obtained by calling _readPack
   _deletePack: (lastRecordId, callback) ->
@@ -201,9 +239,13 @@ class PilClass
         console.warn 'IndexedDB delete error', event.target.error
 
   # Sets up the HTML5 geolocation services.
+  #
+  # @private
+  # This method is not in the client PIL.
   _initGeo: ->
     @_geoWatch = null
     @_geoFixStart = 0
+    @_geoLocation = {}
     @_geoStatus =
       enabled: false, unavailable: false, browser: true, started: false,
       timeToFix: 0, satellites: []
@@ -219,28 +261,32 @@ class PilClass
   # @private
   # This method is not in the client PIL.
   _onGeoLocation: (location) ->
-    console.log location
-
     if @_geoStatus.timeToFix is 0
       @_geoStatus.timeToFix = (Date.now() - @_geoFixStart) / 1000.0
     @_geoStatus.unavailable = false
 
-    time = location.timestamp
     coords = location.coords
-    coords.latitude
-    coords.longitude
-    coords.altitude
-    coords.accuracy  # meters
-    coords.altitudeAccuracy
-    coords.heading
-    coords.speed
+    geoLocation =
+      latitude: coords.latitude
+      longitude: coords.longitude
+      accuracy: coords.accuracy
+      timestamp: location.timestamp
+    if coords.altitude isnt null
+      geoLocation.altitude = coords.altitude
+    if coords.speed isnt null
+      geoLocation.speed = coords.speed
+    if coords.heading or coords.heading is 0
+      geoLocation.heading = coords.heading
+
+    # TODO(pwnall): fire event
+    @_geoLocation = geoLocation
 
   # Called by the HTML5 geolocation API to report an error.
   #
   # @private
   # This method is not in the client PIL.
   _onGeoError: (error) ->
-    console.log error
+    console.error error
 
     switch error.code
       when 1  # PERMISSION_DENIED
@@ -254,6 +300,7 @@ class PilClass
       when 3  # TIMEOUT
         @_geoStatus.enabled = true
         @_geoStatus.unavailable = true
+
 
 if typeof _NetMapPil is 'undefined'
   NetMap.Pil = new PilClass
