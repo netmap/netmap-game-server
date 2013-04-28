@@ -1,3 +1,3 @@
-app: netmap
+app: netmap-game
 concurrency: web=1
 port: 9000
