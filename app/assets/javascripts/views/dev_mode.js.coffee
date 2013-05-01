@@ -13,5 +13,7 @@ $ ->
   $('#dev-upload-button').click ->
     NetMap.Pil.uploadReadingPack NetMap.PilEvents.wrapCallback (done) ->
       $('#dev-location-data').text done
+  NetMap.PilEvents.addListener 'location', ->
+    $('#dev-location-data').text '- ' + NetMap.Pil.locationJson()
 
   NetMap.Pil.saveCookies location.origin

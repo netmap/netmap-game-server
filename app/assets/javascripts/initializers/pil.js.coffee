@@ -277,9 +277,9 @@ class PilClass
       geoLocation.speed = coords.speed
     if coords.heading or coords.heading is 0
       geoLocation.heading = coords.heading
-
-    # TODO(pwnall): fire event
     @_geoLocation = geoLocation
+
+    _pil_ev.location()
 
   # Called by the HTML5 geolocation API to report an error.
   #
