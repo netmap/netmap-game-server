@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '>= 4.0.0.beta1'  # , git: 'git://github.com/rails/rails'
+gem 'rails', '>= 4.0.0.rc1'
 
 gem 'pg'
 
@@ -41,7 +41,8 @@ gem 'rdoc', '~> 3.12'  # Help bundler do dependency resolution.
 gem 'ruby_mapnik', '>= 0.1.5'
 
 # Geo queries.
-gem 'activerecord-postgis-adapter', '>= 0.6.2'
+gem 'activerecord-postgis-adapter',
+    git: 'git://github.com/dazuma/activerecord-postgis-adapter.git'
 
 group :development do
   gem 'better_errors'
