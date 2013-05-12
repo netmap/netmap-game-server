@@ -6,8 +6,16 @@ $ ->
   $('#dev-location-button').click ->
     jsonString = NetMap.Pil.locationJson()
     $('#dev-location-data').text jsonString
-  $('#dev-store-button').click ->
-    jsonString = NetMap.Pil.startReading 'gps',
+  $('#dev-store-light-button').click ->
+    jsonString = NetMap.Pil.startReading '',
+        NetMap.PilEvents.wrapCallback (digest) ->
+          $('#dev-location-data').text digest
+  $('#dev-store-ndt-button').click ->
+    jsonString = NetMap.Pil.startReading 'ndt',
+        NetMap.PilEvents.wrapCallback (digest) ->
+          $('#dev-location-data').text digest
+  $('#dev-store-wifi-button').click ->
+    jsonString = NetMap.Pil.startReading 'wifi-ap',
         NetMap.PilEvents.wrapCallback (digest) ->
           $('#dev-location-data').text digest
   $('#dev-upload-button').click ->
