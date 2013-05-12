@@ -15,7 +15,7 @@ end
 if app_id == 123456789
   metrics_server = 'http://localhost:9300'
 else
-  metrics_server = 'http://netmap-data.pwnb.us.'
+  metrics_server = 'http://netmap-data.pwnb.us'
 end
 
 # Allow env variables to override all the settings.
