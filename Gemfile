@@ -8,12 +8,12 @@ group :assets do
   gem 'sass-rails',   '~> 4.0.0.rc1'
   gem 'coffee-rails', '~> 4.0.0'
   gem 'coffee-script-source', '>= 1.6.2'
-  gem 'zurb-foundation', '>= 4.1.5'
+  gem 'zurb-foundation', '>= 4.1.6'
 
   gem 'therubyracer', '>= 0.11.4'
 
   gem 'openlayers-rails', '>= 0.0.3'
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '>= 2.1.0'
 end
 
 gem 'jquery-rails'
@@ -41,8 +41,7 @@ gem 'rdoc', '~> 3.12'  # Help bundler do dependency resolution.
 gem 'ruby_mapnik', '>= 0.1.5'
 
 # Geo queries.
-gem 'activerecord-postgis-adapter',
-    git: 'git://github.com/dazuma/activerecord-postgis-adapter.git'
+gem 'activerecord-postgis-adapter', '>= 0.6.3'
 
 group :development do
   gem 'better_errors'
