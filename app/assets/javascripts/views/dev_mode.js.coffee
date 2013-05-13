@@ -1,8 +1,8 @@
 $ ->
   $('#dev-location-on').click ->
-    NetMap.Pil.locationOn()
+    NetMap.Pil.trackLocation true
   $('#dev-location-off').click ->
-    NetMap.Pil.locationOff()
+    NetMap.Pil.trackLocation false
   $('#dev-location-button').click ->
     jsonString = NetMap.Pil.locationJson()
     $('#dev-location-data').text jsonString
@@ -22,6 +22,10 @@ $ ->
     NetMap.Pil.uploadReadingPack NetMap.PilEvents.wrapCallback (done) ->
       $('#dev-location-data').text done
   NetMap.PilEvents.addListener 'location', ->
-    $('#dev-location-data').text '- ' + NetMap.Pil.locationJson()
+    $('#dev-location-data').text 'loc: ' + NetMap.Pil.locationJson()
+  NetMap.PilEvents.addListener 'power', ->
+    $('#dev-location-data').text 'pow: ' + NetMap.Pil.powerStateJson()
+  NetMap.PilEvents.addListener 'network', ->
+    $('#dev-location-data').text 'net: ' + NetMap.Pil.networkStateJson()
 
   NetMap.Pil.saveCookies location.origin

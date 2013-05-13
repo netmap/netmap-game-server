@@ -9,6 +9,10 @@ window._pil_cb = {}
 window._pil_ev =
   # Fired when the location reported by the platform updates.
   location: null
+  # Fired when the power source reported by the platform updates.
+  power: null
+  # Fired when the network connection reported by the platform updates.
+  network: null
 
 # NetMap.PilEvents will be an instance of this class.
 class PilEventsClass

@@ -14,20 +14,18 @@ class PilClass
   # Starts querying the platform for a location.
   #
   # This is called when the application becomes active.
-  locationOn: ->
-    return unless @_geoWatch is null
-    @_geoStatus.enabled = true
-    @_geoStatus.started = true
-    @_geoFixStart = Date.now()
-    @_geoWatch = navigator.geolocation.watchPosition(
-        @_boundOnGeoLocation, @_boundOnGeoError,
-        enableHighAccuracy: true, maximumAge:1000)
-    null
-
-  # Stops querying the platform for a location.
-  locationOff: ->
-    return if @_geoWatch is null
-    navigator.geolocation.clearWatch @_geoWatch
+  trackLocation: (enabled) ->
+    if enabled
+      return unless @_geoWatch is null
+      @_geoStatus.enabled = true
+      @_geoStatus.started = true
+      @_geoFixStart = Date.now()
+      @_geoWatch = navigator.geolocation.watchPosition(
+          @_boundOnGeoLocation, @_boundOnGeoError,
+          enableHighAccuracy: true, maximumAge:1000)
+    else
+      return if @_geoWatch is null
+      navigator.geolocation.clearWatch @_geoWatch
     null
 
   # Reads the current GPS status.
