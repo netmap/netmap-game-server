@@ -7,11 +7,12 @@ class CreatePlayers < ActiveRecord::Migration
       t.integer :level, null: false, default: 0
 
       t.timestamps
-    end
 
-    # Find players quickly by their names.
-    add_index :players, :name, unique: true
-    # Find the player associated with a user account.
-    add_index :players, :user_id, unique: true
+      # Find players quickly by their names.
+      t.index :name, unique: true
+
+      # Find the player associated with a user account.
+      t.index :user_id, unique: true
+    end
   end
 end

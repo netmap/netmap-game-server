@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130318072227) do
+ActiveRecord::Schema.define(version: 20130518173015) do
 
   create_table "credentials", force: true do |t|
     t.integer  "user_id",                null: false
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 20130318072227) do
   add_index "credentials", ["type", "updated_at"], :name => "index_credentials_on_type_and_updated_at"
   add_index "credentials", ["user_id", "type"], :name => "index_credentials_on_user_id_and_type"
 
+  create_table "player_stats", force: true do |t|
+    t.integer "player_id", null: false
+    t.integer "xp",        null: false
+    t.integer "mana",      null: false
+  end
+
+  add_index "player_stats", ["player_id"], :name => "index_player_stats_on_player_id", :unique => true
+
   create_table "players", force: true do |t|
     t.string   "name",       limit: 32,             null: false
     t.integer  "user_id",                           null: false
@@ -36,6 +44,17 @@ ActiveRecord::Schema.define(version: 20130318072227) do
 
   add_index "players", ["name"], :name => "index_players_on_name", :unique => true
   add_index "players", ["user_id"], :name => "index_players_on_user_id", :unique => true
+
+  create_table "sites", force: true do |t|
+    t.spatial  "location",       limit: {:srid=>4326, :type=>"point", :geographic=>true}, null: false
+    t.integer  "site_layout_id",                                                          null: false
+    t.integer  "author_id",                                                               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sites", ["author_id"], :name => "index_sites_on_author_id"
+  add_index "sites", ["location"], :name => "index_sites_on_location", :spatial => true
 
   create_table "users", force: true do |t|
     t.string   "exuid",      limit: 32,                 null: false
